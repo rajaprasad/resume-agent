@@ -26,7 +26,7 @@
       border-radius: 16px;
       padding: 36px 32px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       border: 1px solid #e4e4e7;
       text-align: center;
     }
@@ -37,8 +37,19 @@
       font-size: 22px; font-weight: 600; color: #1d4ed8;
       margin: 0 auto 16px;
     }
-    .welcome-title { font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 6px; }
-    .welcome-sub   { font-size: 13px; color: #6b7280; margin-bottom: 24px; line-height: 1.5; }
+    .welcome-title { font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 8px; }
+    .welcome-sub   { font-size: 13px; color: #6b7280; margin-bottom: 12px; line-height: 1.6; }
+    .privacy-note  {
+      font-size: 12px; color: #6b7280;
+      background: #f9fafb;
+      border: 1px solid #e4e4e7;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    .privacy-note strong { color: #374151; }
     .welcome-label { font-size: 12px; font-weight: 500; color: #374151; text-align: left; margin-bottom: 6px; }
     .welcome-input {
       width: 100%; padding: 11px 14px;
@@ -161,13 +172,12 @@
       <div class="welcome-avatar">RP</div>
       <div class="welcome-title">Welcome to Raja's Resume Agent</div>
       <div class="welcome-sub">
-        I am an AI assistant that can answer questions about 
-        Raja Prasad's skills, experience, and availability.<br><br>
-        <strong>Privacy notice:</strong> Your personal information 
-        is not stored. Please do not share any sensitive 
-        personal details in this chat.
+        I am an AI assistant that can answer questions about Raja Prasad's skills, experience, and availability.
       </div>
-      <div class="welcome-label">What is your name?</div>
+      <div class="privacy-note">
+        <strong>Privacy notice:</strong> Your personal information is not stored or shared. Please do not share any sensitive personal details in this conversation.
+      </div>
+      <div class="welcome-label">What is your name? (optional)</div>
       <input class="welcome-input" id="visitorNameInput" type="text"
              placeholder="Enter your name..."
              onkeydown="if(event.key === 'Enter') startChat()" />
@@ -294,20 +304,20 @@ var visitorName = '';
 
 function startChat() {
   var nameInput = document.getElementById('visitorNameInput').value.trim();
-  visitorName = nameInput || '';
+  visitorName = nameInput || 'Anonymous';
   document.getElementById('welcomeScreen').style.display = 'none';
-  var greeting = visitorName
-    ? 'Hi ' + visitorName + '! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?'
+  var greeting = nameInput
+    ? 'Hi ' + nameInput + '! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?'
     : 'Hi! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?';
-  if (visitorName) {
-    document.getElementById('chatSub').textContent = 'Hi ' + visitorName + ' — ask me anything!';
+  if (nameInput) {
+    document.getElementById('chatSub').textContent = 'Hi ' + nameInput + ' - ask me anything!';
   }
   appendMsg(greeting, 'bot');
   document.getElementById('userInput').focus();
 }
 
 function skipWelcome() {
-  visitorName = '';
+  visitorName = 'Anonymous';
   document.getElementById('welcomeScreen').style.display = 'none';
   appendMsg('Hi! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?', 'bot');
   document.getElementById('userInput').focus();
@@ -323,7 +333,7 @@ function appendMsg(text, role) {
 }
 
 async function sendMsg() {
-  var inp = document.getElementById('userInput');
+  var inp  = document.getElementById('userInput');
   var text = inp.value.trim();
   if (!text) return;
   if (text.length > 500) { alert('Please keep your question under 500 characters.'); return; }
