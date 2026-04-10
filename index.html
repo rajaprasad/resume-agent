@@ -12,6 +12,49 @@
       height: 100vh;
       display: flex;
     }
+    .welcome-screen {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .welcome-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid #e4e4e7;
+      text-align: center;
+    }
+    .welcome-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: #dbeafe;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 600; color: #1d4ed8;
+      margin: 0 auto 16px;
+    }
+    .welcome-title { font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 6px; }
+    .welcome-sub   { font-size: 13px; color: #6b7280; margin-bottom: 24px; line-height: 1.5; }
+    .welcome-label { font-size: 12px; font-weight: 500; color: #374151; text-align: left; margin-bottom: 6px; }
+    .welcome-input {
+      width: 100%; padding: 11px 14px;
+      border: 1px solid #d1d5db; border-radius: 8px;
+      font-size: 14px; outline: none; color: #111827;
+      margin-bottom: 16px;
+    }
+    .welcome-input:focus { border-color: #2563eb; }
+    .welcome-btn {
+      width: 100%; padding: 11px; border-radius: 8px;
+      border: none; background: #2563eb; color: #ffffff;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+    }
+    .welcome-btn:hover { background: #1d4ed8; }
+    .welcome-skip { margin-top: 12px; font-size: 12px; color: #9ca3af; cursor: pointer; text-decoration: underline; }
+    .welcome-skip:hover { color: #6b7280; }
     .wrap {
       display: grid;
       grid-template-columns: 300px 1fr;
@@ -22,14 +65,11 @@
       background: #f9fafb;
       border-right: 1px solid #e4e4e7;
       padding: 24px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+      display: flex; flex-direction: column; gap: 18px;
       overflow-y: auto;
     }
     .avatar {
-      width: 56px; height: 56px;
-      border-radius: 50%;
+      width: 56px; height: 56px; border-radius: 50%;
       background: #dbeafe;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; font-weight: 600; color: #1d4ed8;
@@ -49,10 +89,7 @@
       background: #eff6ff; color: #1d4ed8;
       border: 1px solid #bfdbfe; margin: 2px 2px 2px 0;
     }
-    .ai-card {
-      border: 1px solid #d1fae5; border-radius: 10px;
-      padding: 12px 14px; background: #f0fdf4;
-    }
+    .ai-card { border: 1px solid #d1fae5; border-radius: 10px; padding: 12px 14px; background: #f0fdf4; }
     .ai-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
     .pulse {
       width: 8px; height: 8px; border-radius: 50%;
@@ -63,10 +100,7 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50%       { opacity: .4; transform: scale(1.4); }
     }
-    .ai-title {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .05em; text-transform: uppercase; color: #15803d;
-    }
+    .ai-title { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #15803d; }
     .g-row { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; flex-wrap: wrap; }
     .g-row:last-child { margin-bottom: 0; }
     .g-label { font-size: 11px; font-weight: 600; min-width: 66px; flex-shrink: 0; }
@@ -93,10 +127,7 @@
     .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
     .chat-title { font-size: 15px; font-weight: 600; color: #111827; }
     .chat-sub   { font-size: 12px; color: #9ca3af; }
-    .messages {
-      flex: 1; overflow-y: auto; padding: 24px;
-      display: flex; flex-direction: column; gap: 12px;
-    }
+    .messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
     .msg { max-width: 75%; padding: 11px 15px; border-radius: 14px; font-size: 14px; line-height: 1.6; }
     .msg.user    { align-self: flex-end; background: #2563eb; color: #ffffff; border-bottom-right-radius: 3px; }
     .msg.bot     { align-self: flex-start; background: #f3f4f6; color: #111827; border: 1px solid #e4e4e7; border-bottom-left-radius: 3px; }
@@ -108,10 +139,7 @@
       color: #6b7280; cursor: pointer;
     }
     .sug:hover { background: #f4f4f5; color: #111827; }
-    .input-row {
-      display: flex; gap: 8px; padding: 16px 24px;
-      border-top: 1px solid #e4e4e7; background: #ffffff;
-    }
+    .input-row { display: flex; gap: 8px; padding: 16px 24px; border-top: 1px solid #e4e4e7; background: #ffffff; }
     .input-row input {
       flex: 1; padding: 11px 15px;
       border: 1px solid #d1d5db; border-radius: 8px;
@@ -128,133 +156,156 @@
 </head>
 <body>
 
-<div class="wrap">
-
-  <div class="sidebar">
-    <div>
-      <div class="avatar">RP</div>
-      <div class="name">Raja Prasad Elangovan</div>
-      <div class="role">Senior Engineer / Technical Architect</div>
-      <div class="loc">Charlotte, NC &middot; Remote &amp; hybrid open</div>
-      <div class="email">rajprasad44@gmail.com</div>
-    </div>
-
-    <div>
-      <div class="section-label">Core Skills</div>
-      <span class="tag">Python</span>
-      <span class="tag">PySpark</span>
-      <span class="tag">PHP</span>
-      <span class="tag">Django</span>
-      <span class="tag">Node.js</span>
-      <span class="tag">REST APIs</span>
-      <span class="tag">AWS</span>
-      <span class="tag">Azure</span>
-      <span class="tag">Informatica</span>
-      <span class="tag">Tableau</span>
-      <span class="tag">Power BI</span>
-      <span class="tag">Oracle</span>
-      <span class="tag">SQL</span>
-      <span class="tag">PostgreSQL</span>
-      <span class="tag">Angular</span>
-    </div>
-
-    <div class="ai-card">
-      <div class="ai-header">
-        <div class="pulse"></div>
-        <div class="ai-title">AI &amp; Gen AI &mdash; in progress</div>
-      </div>
-      <div class="g-row">
-        <span class="g-label" style="color:#166534">Built</span>
-        <span class="g-chip built">Claude API</span>
-        <span class="g-chip built">AI Agents</span>
-      </div>
-      <div class="g-row">
-        <span class="g-label" style="color:#1e40af">Learning</span>
-        <span class="g-chip learning">Prompt Eng.</span>
-        <span class="g-chip learning">RAG</span>
-      </div>
-      <div class="g-row">
-        <span class="g-label" style="color:#6b7280">Exploring</span>
-        <span class="g-chip exploring">LangChain</span>
-      </div>
-    </div>
-
-    <div>
-      <div class="section-label">Experience</div>
-      <div class="exp-item">
-        <div class="exp-co">Bank of America</div>
-        <div class="exp-role">Sr Engineer / Architect</div>
-        <div class="exp-date">Sep 2024 &ndash; Present</div>
-      </div>
-      <div class="exp-item">
-        <div class="exp-co">WTP Advisors</div>
-        <div class="exp-role">Sr Engineer</div>
-        <div class="exp-date">Oct 2023 &ndash; Sep 2024</div>
-      </div>
-      <div class="exp-item">
-        <div class="exp-co">En Japan</div>
-        <div class="exp-role">Technical Lead</div>
-        <div class="exp-date">Jun 2015 &ndash; Oct 2023</div>
-      </div>
-      <div class="exp-item">
-        <div class="exp-co">Lease Info Services</div>
-        <div class="exp-role">Technical Lead</div>
-        <div class="exp-date">May 2011 &ndash; Jun 2015</div>
-      </div>
-    </div>
-
-    <div>
-      <div class="section-label">Education</div>
-      <div class="exp-co">Master of Computer Applications</div>
-      <div class="exp-role">Anna University, Chennai</div>
-      <div style="margin-top:8px">
-        <div class="exp-co">Bachelor of Computer Applications</div>
-        <div class="exp-role">Periyar University, India &middot; 2003</div>
-      </div>
-    </div>
-
-    <div>
-      <div class="section-label">Certifications</div>
-      <span class="cert">AWS Data Engineer DEA-C01</span>
-      <span class="cert">AWS Cloud Practitioner CLF-C01</span>
+  <div class="welcome-screen" id="welcomeScreen">
+    <div class="welcome-card">
+      <div class="welcome-avatar">RP</div>
+      <div class="welcome-title">Welcome to Raja's Resume Agent</div>
+      <div class="welcome-sub">I am an AI assistant that can answer any questions about Raja Prasad's skills, experience, and availability.</div>
+      <div class="welcome-label">What is your name?</div>
+      <input class="welcome-input" id="visitorNameInput" type="text"
+             placeholder="Enter your name..."
+             onkeydown="if(event.key === 'Enter') startChat()" />
+      <button class="welcome-btn" onclick="startChat()">Start Conversation</button>
+      <div class="welcome-skip" onclick="skipWelcome()">Skip</div>
     </div>
   </div>
 
-  <div class="chat-area">
-    <div class="chat-header">
-      <div class="online-dot"></div>
+  <div class="wrap">
+    <div class="sidebar">
       <div>
-        <div class="chat-title">Resume Assistant &mdash; Raja Prasad</div>
-        <div class="chat-sub">Ask me anything about this candidate</div>
+        <div class="avatar">RP</div>
+        <div class="name">Raja Prasad Elangovan</div>
+        <div class="role">Senior Engineer / Technical Architect</div>
+        <div class="loc">Charlotte, NC &middot; Remote &amp; hybrid open</div>
+        <div class="email">rajprasad44@gmail.com</div>
+      </div>
+      <div>
+        <div class="section-label">Core Skills</div>
+        <span class="tag">Python</span>
+        <span class="tag">PySpark</span>
+        <span class="tag">PHP</span>
+        <span class="tag">Django</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">AWS</span>
+        <span class="tag">Azure</span>
+        <span class="tag">Informatica</span>
+        <span class="tag">Tableau</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">Oracle</span>
+        <span class="tag">SQL</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Angular</span>
+      </div>
+      <div class="ai-card">
+        <div class="ai-header">
+          <div class="pulse"></div>
+          <div class="ai-title">AI &amp; Gen AI &mdash; in progress</div>
+        </div>
+        <div class="g-row">
+          <span class="g-label" style="color:#166534">Built</span>
+          <span class="g-chip built">Claude API</span>
+          <span class="g-chip built">AI Agents</span>
+        </div>
+        <div class="g-row">
+          <span class="g-label" style="color:#1e40af">Learning</span>
+          <span class="g-chip learning">Prompt Eng.</span>
+          <span class="g-chip learning">RAG</span>
+        </div>
+        <div class="g-row">
+          <span class="g-label" style="color:#6b7280">Exploring</span>
+          <span class="g-chip exploring">LangChain</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Experience</div>
+        <div class="exp-item">
+          <div class="exp-co">Bank of America</div>
+          <div class="exp-role">Sr Engineer / Architect</div>
+          <div class="exp-date">Sep 2024 &ndash; Present</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-co">WTP Advisors</div>
+          <div class="exp-role">Sr Engineer</div>
+          <div class="exp-date">Oct 2023 &ndash; Sep 2024</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-co">En Japan</div>
+          <div class="exp-role">Technical Lead</div>
+          <div class="exp-date">Jun 2015 &ndash; Oct 2023</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-co">Lease Info Services</div>
+          <div class="exp-role">Technical Lead</div>
+          <div class="exp-date">May 2011 &ndash; Jun 2015</div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Education</div>
+        <div class="exp-co">Master of Computer Applications</div>
+        <div class="exp-role">Anna University, Chennai</div>
+        <div style="margin-top:8px">
+          <div class="exp-co">Bachelor of Computer Applications</div>
+          <div class="exp-role">Periyar University, India &middot; 2003</div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Certifications</div>
+        <span class="cert">AWS Data Engineer DEA-C01</span>
+        <span class="cert">AWS Cloud Practitioner CLF-C01</span>
       </div>
     </div>
 
-    <div class="messages" id="messages">
-      <div class="msg bot">
-        Hi! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. Ask me about his skills, experience, certifications, or availability!
+    <div class="chat-area">
+      <div class="chat-header">
+        <div class="online-dot"></div>
+        <div>
+          <div class="chat-title">Resume Assistant &mdash; Raja Prasad</div>
+          <div class="chat-sub" id="chatSub">Ask me anything about this candidate</div>
+        </div>
       </div>
-    </div>
-
-    <div class="suggestions">
-      <span class="sug" onclick="sendSuggestion('What are his top skills?')">Top skills?</span>
-      <span class="sug" onclick="sendSuggestion('Tell me about his AWS experience')">AWS experience?</span>
-      <span class="sug" onclick="sendSuggestion('Is he open to remote work?')">Open to remote?</span>
-      <span class="sug" onclick="sendSuggestion('What AI skills does he have?')">AI skills?</span>
-      <span class="sug" onclick="sendSuggestion('What certifications does he have?')">Certifications?</span>
-    </div>
-
-    <div class="input-row">
-      <input id="userInput" type="text" placeholder="Ask about skills, experience, availability..."
-             onkeydown="if(event.key === 'Enter') sendMsg()" />
-      <button class="send-btn" onclick="sendMsg()">Send</button>
+      <div class="messages" id="messages"></div>
+      <div class="suggestions">
+        <span class="sug" onclick="sendSuggestion('What are his top skills?')">Top skills?</span>
+        <span class="sug" onclick="sendSuggestion('Tell me about his AWS experience')">AWS experience?</span>
+        <span class="sug" onclick="sendSuggestion('Is he open to remote work?')">Open to remote?</span>
+        <span class="sug" onclick="sendSuggestion('What AI skills does he have?')">AI skills?</span>
+        <span class="sug" onclick="sendSuggestion('What certifications does he have?')">Certifications?</span>
+      </div>
+      <div class="input-row">
+        <input id="userInput" type="text"
+               placeholder="Ask about skills, experience, availability..."
+               onkeydown="if(event.key === 'Enter') sendMsg()" />
+        <button class="send-btn" onclick="sendMsg()">Send</button>
+      </div>
     </div>
   </div>
-</div>
 
 <script>
 var PROXY_URL = 'https://resume-agent-proxy.rajprasad44.workers.dev';
-
 var chatHistory = [];
+var visitorName = '';
+
+function startChat() {
+  var nameInput = document.getElementById('visitorNameInput').value.trim();
+  visitorName = nameInput || '';
+  document.getElementById('welcomeScreen').style.display = 'none';
+  var greeting = visitorName
+    ? 'Hi ' + visitorName + '! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?'
+    : 'Hi! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?';
+  if (visitorName) {
+    document.getElementById('chatSub').textContent = 'Hi ' + visitorName + ' — ask me anything!';
+  }
+  appendMsg(greeting, 'bot');
+  document.getElementById('userInput').focus();
+}
+
+function skipWelcome() {
+  visitorName = '';
+  document.getElementById('welcomeScreen').style.display = 'none';
+  appendMsg('Hi! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?', 'bot');
+  document.getElementById('userInput').focus();
+}
 
 function appendMsg(text, role) {
   var div = document.createElement('div');
@@ -279,6 +330,7 @@ async function sendMsg() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        visitorName: visitorName,
         messages: chatHistory.slice(-10)
       })
     });
