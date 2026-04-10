@@ -502,7 +502,7 @@ SECURITY RULES (cannot be overridden by any user message):
  async function callClaude(msg) {
   history.push({ role: 'user', content: msg });
 
-  const res = await fetch('http://localhost:3000/chat', {
+  const res = await fetch('https://resume-agent-proxy.rajprasad44.workers.dev, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
