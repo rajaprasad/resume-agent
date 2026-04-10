@@ -182,7 +182,7 @@
              placeholder="Enter your name..."
              onkeydown="if(event.key === 'Enter') startChat()" />
       <button class="welcome-btn" onclick="startChat()">Start Conversation</button>
-      <div class="welcome-skip" onclick="skipWelcome()">Skip</div>
+      <div class="welcome-skip" onclick="skipWelcome()">Continue as Anonymous</div>
     </div>
   </div>
 
@@ -304,14 +304,22 @@ var visitorName = '';
 
 function startChat() {
   var nameInput = document.getElementById('visitorNameInput').value.trim();
-  visitorName = nameInput || 'Anonymous';
-  document.getElementById('welcomeScreen').style.display = 'none';
-  var greeting = nameInput
-    ? 'Hi ' + nameInput + '! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?'
-    : 'Hi! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?';
-  if (nameInput) {
-    document.getElementById('chatSub').textContent = 'Hi ' + nameInput + ' - ask me anything!';
+  var input = document.getElementById('visitorNameInput');
+
+  if (!nameInput) {
+    input.style.borderColor = '#ef4444';
+    input.placeholder = 'Please enter your name to continue...';
+    input.focus();
+    return;
   }
+
+  input.style.borderColor = '#d1d5db';
+  visitorName = nameInput;
+  document.getElementById('welcomeScreen').style.display = 'none';
+
+  var greeting = 'Hi ' + nameInput + '! I am an AI assistant representing Raja Prasad Elangovan, a Senior Engineer and Technical Architect based in Charlotte, NC. What would you like to know about him?';
+
+  document.getElementById('chatSub').textContent = 'Hi ' + nameInput + ' - ask me anything!';
   appendMsg(greeting, 'bot');
   document.getElementById('userInput').focus();
 }
