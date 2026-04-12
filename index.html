@@ -177,7 +177,7 @@
       <div class="privacy-note">
         <strong>Privacy notice:</strong> Your personal information is not stored or shared. Please do not share any sensitive personal details in this conversation.
       </div>
-      <div class="welcome-label">What is your name? (optional)</div>
+      <div class="welcome-label">What is your name? </div>
       <input class="welcome-input" id="visitorNameInput" type="text"
              placeholder="Enter your name..."
              onkeydown="if(event.key === 'Enter') startChat()" />
@@ -222,15 +222,12 @@
           <span class="g-label" style="color:#166534">Built</span>
           <span class="g-chip built">Claude API</span>
           <span class="g-chip built">AI Agents</span>
+          <span class="g-chip built">LangChain</span>
         </div>
         <div class="g-row">
-          <span class="g-label" style="color:#1e40af">Learning</span>
+          <span class="g-label" style="color:#1e40af">In Progress</span>
           <span class="g-chip learning">Prompt Eng.</span>
           <span class="g-chip learning">RAG</span>
-        </div>
-        <div class="g-row">
-          <span class="g-label" style="color:#6b7280">Exploring</span>
-          <span class="g-chip exploring">LangChain</span>
         </div>
       </div>
       <div>
@@ -341,25 +338,45 @@ async function sendMsg() {
   var inp  = document.getElementById('userInput');
   var text = inp.value.trim();
   if (!text) return;
-  if (text.length > 500) { alert('Please keep your question under 500 characters.'); return; }
+  if (text.length > 500) return;
   inp.value = '';
   appendMsg(text, 'user');
   var typing = appendMsg('Thinking...', 'bot typing');
   chatHistory.push({ role: 'user', content: text });
+
   try {
-    var res = await fetch(PROXY_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        visitorName: visitorName,
-        messages: chatHistory.slice(-10)
-      })
-    });
-    var data = await res.json();
-    var reply = (data.content && data.content[0]) ? data.content[0].text : 'Sorry, something went wrong.';
+    var res, data, reply;
+
+    // detect skill gap questions → route to LangChain
+    var isSkillQuestion = /know|familiar|experience with|worked with|used|have you|does he know|has he used|what about|skill in/i.test(text);
+
+    if (isSkillQuestion) {
+      res = await fetch('http://localhost:3001/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: text })
+      });
+      data  = await res.json();
+      reply = data.answer;
+    } else {
+      res = await fetch(PROXY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          visitorName: visitorName,
+          messages: chatHistory.slice(-10)
+        })
+      });
+      data  = await res.json();
+      reply = (data.content && data.content[0])
+        ? data.content[0].text
+        : 'Sorry, something went wrong.';
+    }
+
     chatHistory.push({ role: 'assistant', content: reply });
     typing.remove();
     appendMsg(reply, 'bot');
+
   } catch(e) {
     typing.textContent = 'Something went wrong. Please try again.';
     typing.classList.remove('typing');
