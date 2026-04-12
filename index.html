@@ -344,40 +344,22 @@ async function sendMsg() {
   appendMsg(text, 'user');
   var typing = appendMsg('Thinking...', 'bot typing');
   chatHistory.push({ role: 'user', content: text });
-
   try {
-    var res, data, reply;
-
-    // detect skill gap questions → route to LangChain
-    var isSkillQuestion = /know|familiar|experience with|worked with|used|have you|does he know|has he used|what about|skill in/i.test(text);
-
-    if (isSkillQuestion) {
-      res = await fetch('http://localhost:3001/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: text })
-      });
-      data  = await res.json();
-      reply = data.answer;
-    } else {
-      res = await fetch(PROXY_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          visitorName: visitorName,
-          messages: chatHistory.slice(-10)
-        })
-      });
-      data  = await res.json();
-      reply = (data.content && data.content[0])
-        ? data.content[0].text
-        : 'Sorry, something went wrong.';
-    }
-
+    var res = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        visitorName: visitorName,
+        messages: chatHistory.slice(-10)
+      })
+    });
+    var data  = await res.json();
+    var reply = (data.content && data.content[0] && data.content[0].text)
+      ? data.content[0].text
+      : 'Sorry, something went wrong.';
     chatHistory.push({ role: 'assistant', content: reply });
     typing.remove();
     appendMsg(reply, 'bot');
-
   } catch(e) {
     typing.textContent = 'Something went wrong. Please try again.';
     typing.classList.remove('typing');
